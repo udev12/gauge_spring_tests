@@ -1,22 +1,32 @@
-os:
-  - osx
-
 language: java
 
-before_install:
-  - brew update
-
-install:
-  - brew cask install google-chrome
-  - brew cask install chromedriver
-  - brew install gauge
-  - gauge install java
-  - gauge install html-report
-
-cache:
-  directories:
-  - $HOME/.m2
+addons:
+  sonarcloud:
+    organization: "udev12"
 
 script:
-  - mvn clean
-  - mvn test
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=udev12_gauge_spring_tests
+
+#os:
+#  - osx
+#
+#language: java
+#
+#before_install:
+#  - brew update
+#
+#install:
+#  - brew cask install google-chrome
+#  - brew cask install chromedriver
+#  - brew install gauge
+#  - gauge install java
+#  - gauge install html-report
+#
+#cache:
+#  directories:
+#  - $HOME/.m2
+#
+#script:
+#  - mvn clean
+#  - mvn test
